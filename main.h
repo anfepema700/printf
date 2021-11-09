@@ -6,34 +6,27 @@
 #include <stdarg.h>
 
 /**
-*struct convert - defines a structure
-*@sym: pointer avaluesin string
-*@f: the function pointer associated
- **/
-
-typedef struct convert
+*struct convert - defines a structure for symbols and functions
+*
+*@sym: The operator
+*@f: The function associated
+**/
+struct convert
 {
-	char *sym;
-	int (*f)(va_list);
-} conver_t;
+		char *sym;
+			int (*f)(va_list);
+};
+typedef struct convert conver_t;
 
-/*prototypes*/
 
-int concat(const char *format, convert_t func_list[], va_list arg_list);
+int concat(const char *format, conver_t f_list[], va_list arg_list);
 int _printf(const char *format, ...);
 int _putchar(char);
 int print_char(va_list);
 int print_string(va_list);
-int print_perent(va_list);
-
-
-/**/
-
-static const conver_t func_list[] = {
-	{"c", print_char},
-	{"s", print_string},
-	{"%", print_percent},
-	{NULL, NULL}
-};
+int print_percent(va_list);
+int print_integer(va_list);
+int print_number(va_list);
+int print_unsgined_number(unsigned int);
 
 #endif
