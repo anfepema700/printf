@@ -1,53 +1,51 @@
 #include "main.h"
 
 /**
- * concat- concatenates the string passed to _printf as argument
- * before and after the format specifier
- * @format:  is a character string. Is composed of zero or more directives
- * @func_list: list of variadic functions
- * @arg_list: list of arguments passed to the variadic functions
+ * concat - concatenates the string before and after the format
+ * character % is passed to the function
+ * @format: is a character string.
+ * The format string is composed of zero or more directives
+ * @f_list: A list of all the posible functions.
+ * @arg_list: A list containing all the argumentents passed to the functions
  * Return: the number of characters printed
  */
-
-int concat(const char *format, conver_t func_list, arg_list)
+int concat(const char *format, conver_t f_list[], va_list arg_list)
 {
-	int i, j, return_val, count_char;
+	int i, j, r_val, printed_chars;
 
-	count_char = 0;
+	printed_chars = 0;
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
 		{
-   /*Iterates through struct to find the right func*/
-			for (j = 0; func_list[j].sym != NULL; j++)
+			for (j = 0; f_list[j].sym != NULL; j++)
 			{
-				if (format[i + 1] == func_list[j].sym[0])
+				if (format[i + 1] == f_list[j].sym[0])
 				{
-					r_val = func_list[j].f(arg_list);
-					if (return_val == -1)
+					r_val = f_list[j].f(arg_list);
+					if (r_val == -1)
 						return (-1);
-					count_char += return_val;
+					printed_chars += r_val;
 					break;
 				}
 			}
-			if (func_list[j].sym == NULL && format[i + 1] != ' ')
+			if (f_list[j].sym == NULL && format[i + 1] != ' ')
 			{
 				if (format[i + 1] != '\0')
-			{
+
 					_putchar(format[i]);
 					_putchar(format[i + 1]);
-					count_char = count_char + 2;
+					printed_chars = printed_chars + 2;
 			}
 			else
 				return (-1);
-			}
-			i = i + 1; /*Updating i to skip format symbols*/
 		}
-		else
-		{
-			_write_char(format[i]); /*call the write function*/
-			count_char++;
-		}
+		i = i + 1;
 	}
-	return (count_char);
+	else
+	{
+		_putchar(format[i]);
+		printed_chars++;
+	}
+		return (printed_chars);
 }
