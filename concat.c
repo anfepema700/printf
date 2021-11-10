@@ -1,23 +1,23 @@
-#include "main.h"
+#include "holberton.h"
 
 /**
- * concat - concatenates the string before and after the format
- * character % is passed to the function
- * @format: is a character string.
- * The format string is composed of zero or more directives
+ * concat- Receives the main string and all the necessary parameters to
+ * print a formated string.
+ * @format: A string containing all the desired characters.
  * @f_list: A list of all the posible functions.
- * @arg_list: A list containing all the argumentents passed to the functions
- * Return: the number of characters printed
+ * @arg_list: A list containing all the argumentents passed to the program.
+ * Return: A total count of the characters printed.
  */
 int concat(const char *format, conver_t f_list[], va_list arg_list)
 {
 	int i, j, r_val, printed_chars;
 
 	printed_chars = 0;
-	for (i = 0; format[i] != '\0'; i++)
+	for (i = 0; format[i] != '\0'; i++)/* Iterates through the main str*/
 	{
-		if (format[i] == '%')
+		if (format[i] == '%') /*Checks for format specifiers*/
 		{
+			/*Iterates through struct to find the right func*/
 			for (j = 0; f_list[j].sym != NULL; j++)
 			{
 				if (format[i + 1] == f_list[j].sym[0])
@@ -32,20 +32,21 @@ int concat(const char *format, conver_t f_list[], va_list arg_list)
 			if (f_list[j].sym == NULL && format[i + 1] != ' ')
 			{
 				if (format[i + 1] != '\0')
-
+				{
 					_putchar(format[i]);
 					_putchar(format[i + 1]);
 					printed_chars = printed_chars + 2;
+				}
+				else
+					return (-1);
 			}
-			else
-				return (-1);
+			i = i + 1; /*Updating i to skip format symbols*/
 		}
-		i = i + 1;
+		else
+		{
+			_putchar(format[i]); /*call the write function*/
+			printed_chars++;
+		}
 	}
-	else
-	{
-		_putchar(format[i]);
-		printed_chars++;
-	}
-		return (printed_chars);
+	return (printed_chars);
 }
